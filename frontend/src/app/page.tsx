@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 export default async function Home() {
   const cookieStore = cookies();
   const supabase = supabaseServerClient(cookieStore);
-
   const { data: posts } = await supabase.from("posts").select("*");
 
   return (
