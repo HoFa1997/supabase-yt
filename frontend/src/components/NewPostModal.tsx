@@ -1,6 +1,7 @@
 "use client";
 import { supabaseClient } from "@/api/config";
 import { Database } from "@/types/supabase";
+import { useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
 
@@ -10,7 +11,7 @@ export const NewPostModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
+  const router = useRouter();
   const handleOpen = () => {
     setIsOpen(true);
   };
@@ -22,26 +23,17 @@ export const NewPostModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const {
-      data: { session },
-    } = await supabaseClient.auth.getSession();
-
-    if (session?.user.id) {
-      const { error } = await supabaseClient
-        .from("posts")
-        .insert({ title, content, author_id: session.user.id });
-
-      if (error) {
-        enqueueSnackbar(error.message, { variant: "error" });
-      } else {
-        enqueueSnackbar("Post created successfully", { variant: "success" });
-      }
-
+    try {
+      await supabaseClient.from("posts").insert({ title, content });
+      enqueueSnackbar("Post created successfully", { variant: "success" });
       // Reset the form fields
       setTitle("");
       setContent("");
       // Close the modal
       handleClose();
+      router.refresh();
+    } catch (error: any) {
+      enqueueSnackbar(error.message, { variant: "error" });
     }
   };
 
