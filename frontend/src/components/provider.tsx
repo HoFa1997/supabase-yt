@@ -1,6 +1,7 @@
 "use client";
 import { SnackbarProvider } from "notistack";
 import { ReactNode } from "react";
+import { Header } from "./layout";
 
 export const Provider = ({ children }: { children: ReactNode }) => {
   return (
@@ -8,6 +9,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
       <SnackbarProvider
         anchorOrigin={{ horizontal: "center", vertical: "top" }}
       >
+        <Header />
         {children}
       </SnackbarProvider>
     </>
