@@ -38,11 +38,15 @@ export default function EditPostPage({
   }, [postId]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLInputElement
+    >
   ) => {
+    const value =
+      e.target.type === "checkbox" ? (e.target as any).checked : e.target.value;
     setFormData((prevData) => ({
       ...prevData!,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     }));
   };
 
@@ -68,6 +72,19 @@ export default function EditPostPage({
       {postData ? (
         <div>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+            <div className="mb-4">
+              <label htmlFor="is_published" className="block text-gray-700">
+                Is Published:
+              </label>
+              <input
+                type="checkbox"
+                id="is_published"
+                name="is_published"
+                checked={formData?.is_published || false}
+                onChange={handleChange}
+                className="form-checkbox mt-1 block"
+              />
+            </div>
             <div className="mb-4">
               <label htmlFor="title" className="block text-gray-700">
                 Title:
