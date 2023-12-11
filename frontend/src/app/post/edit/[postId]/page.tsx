@@ -2,6 +2,7 @@
 import { supabaseClient } from "@/api/config";
 import { BackComponent } from "@/components";
 import { Database } from "@/types/supabase";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 
 type EditPostPageProps = {
@@ -48,10 +49,15 @@ export default function EditPostPage({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await supabaseClient.from("posts").update({}).eq("post_id", postId);
-      console.log("Post data updated successfully!");
-    } catch (error) {
-      console.error("Error updating post data:", error);
+      await supabaseClient
+        .from("posts")
+        .update({ ...formData })
+        .eq("post_id", postId);
+      enqueueSnackbar("Post data updated successfully!", {
+        variant: "success",
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error.message, { variant: "error" });
     }
   };
 

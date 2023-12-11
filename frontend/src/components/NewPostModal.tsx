@@ -78,7 +78,7 @@ export const NewPostModal: React.FC = () => {
                   onClick={handleClose}
                   className="px-4 py-2 bg-red-500 text-white rounded-md"
                 >
-                  Close Modal
+                  Close
                 </button>
               </div>
             </form>
