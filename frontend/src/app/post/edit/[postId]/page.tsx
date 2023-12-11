@@ -1,5 +1,6 @@
 "use client";
 import { supabaseClient } from "@/api/config";
+import { BackComponent } from "@/components";
 import { Database } from "@/types/supabase";
 import { useEffect, useState } from "react";
 
@@ -56,6 +57,8 @@ export default function EditPostPage({
 
   return (
     <div className="container max-w-6xl p-4">
+      <BackComponent />
+
       {postData ? (
         <div>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
